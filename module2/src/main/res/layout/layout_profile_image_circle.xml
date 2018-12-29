@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="modelAddress"
+            type="com.example.tuananh.module2.ModelAddress"></variable>
+        <variable
+            name="id"
+            type="Integer"></variable>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/container"
+        android:padding="4dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            setProfileImage="@{id}"
+            android:id="@+id/civ_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_marginTop="4dp"
+            android:text="@{modelAddress.name}"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/civ_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</layout>

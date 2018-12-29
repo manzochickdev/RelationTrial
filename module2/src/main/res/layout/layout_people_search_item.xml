@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="modelAddress"
+            type="com.example.tuananh.module2.ModelAddress"></variable>
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/container">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/image_holder"
+            android:layout_width="52dp"
+            android:layout_height="52dp" />
+        <TextView
+            android:id="@+id/tv_name"
+            android:textSize="16sp"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/iv_profile"
+            android:text="@{modelAddress.name}"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_below="@id/tv_name"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/iv_profile"
+            android:text="@{modelAddress.address}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</layout>

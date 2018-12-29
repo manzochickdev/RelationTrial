@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"></import>
+        <variable
+            name="models"
+            type="java.util.ArrayList&lt;com.example.tuananh.module1.Model.Model>"></variable>
+        <variable
+            name="iMainActivity"
+            type="com.example.tuananh.module1.People.IMainActivity"></variable>
+        <variable
+            name="isVisible"
+            type="Boolean"></variable>
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:id="@+id/people_container">
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:visibility="@{models.size()>=1 ? View.VISIBLE : View.GONE}"
+                android:id="@+id/container">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        setProfileImage="@{models.size()>=1 ? models.get(0).getId() : -1}"
+                        app:civ_border_color="@color/colorAccent"
+                        android:id="@+id/civProfile"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="77dp"
+                        android:layout_height="77dp"/>
+                    <TextView
+                        android:gravity="center_horizontal"
+                        android:maxLines="2"
+                        android:id="@+id/tv_name"
+                        android:textSize="16sp"
+                        android:text="@{models.size()>=1 ? models.get(0).getName() : @string/null_value}"
+                        android:layout_marginTop="8dp"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/civProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginTop="-4dp"
+                        android:text="Holder"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:visibility="@{models.size()>=2 ? View.VISIBLE : View.GONE}"
+                android:id="@+id/container1">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        setProfileImage="@{models.size()>=2 ? models.get(1).getId() : -1}"
+                        app:civ_border_color="@color/colorAccent"
+                        android:id="@+id/civProfile1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="77dp"
+                        android:layout_height="77dp" />
+                    <TextView
+                        android:gravity="center_horizontal"
+                        android:maxLines="2"
+                        android:textSize="16sp"
+                        android:id="@+id/tv_name1"
+                        android:text="@{models.size()>=2 ? models.get(1).getName() : @string/null_value}"
+                        android:layout_marginTop="8dp"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/civProfile1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginTop="-4dp"
+                        android:text="Holder"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/tv_name1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:visibility="@{models.size()>=3 ? View.VISIBLE : View.GONE}"
+                android:id="@+id/container2">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        setProfileImage="@{models.size()>=3 ? models.get(2).getId() : -1}"
+                        app:civ_border_color="@color/colorAccent"
+                        android:id="@+id/civProfile2"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="77dp"
+                        android:layout_height="77dp" />
+                    <TextView
+                        android:gravity="center_horizontal"
+                        android:maxLines="2"
+                        android:textSize="16sp"
+                        android:id="@+id/tv_name2"
+                        android:text="@{models.size()>=3 ? models.get(2).getName() : @string/null_value}"
+                        android:layout_marginTop="8dp"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/civProfile2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_marginTop="-4dp"
+                        android:text="Holder"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@id/tv_name2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </FrameLayout>
+        </LinearLayout>
+        <include layout="@layout/layout_info_summary"
+            android:id="@+id/layout_info_summary"
+            android:layout_below="@id/people_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{isVisible ? View.VISIBLE : View.GONE}"></include>
+    </RelativeLayout>
+</layout>

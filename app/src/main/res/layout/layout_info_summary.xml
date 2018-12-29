@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"></import>
+        <variable
+            name="isView"
+            type="Boolean"></variable>
+        <variable
+            name="model"
+            type="com.example.tuananh.module1.Model.Model"></variable>
+        <variable
+            name="iMainActivity"
+            type="com.example.tuananh.module1.People.IMainActivity"></variable>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/curved_rect">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_marginLeft="12dp"
+            android:text="@{model.name}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:layout_below="@id/tv_name"
+            android:id="@+id/add_rela_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:visibility="@{!isView ? View.VISIBLE : View.GONE}"
+                android:onClick="@{()->iMainActivity.onAddRelativeListener(model.id)}"
+                android:text="Add Relative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:visibility="@{isView ? View.VISIBLE : View.GONE}"
+                android:onClick="@{()->iMainActivity.onShowRelation(model.id)}"
+                android:layout_below="@id/tv_name"
+                android:text="Show Relation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+        <Button
+            android:onClick="@{()->iMainActivity.onDetailInfoShow(model.id)}"
+            android:layout_toRightOf="@id/add_rela_btn"
+            android:layout_alignTop="@id/add_rela_btn"
+            android:id="@+id/show_info_btn"
+            android:text="Detail Info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</layout>

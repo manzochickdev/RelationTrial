@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="id"
+            type="Integer"></variable>
+        <variable
+            name="iMainActivity"
+            type="com.example.tuananh.module1.People.IMainActivity"></variable>
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RelationView.RelationPickerFragment"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:background="@drawable/curved_white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:onClick="@{()->iMainActivity.onAddNewRelative(id)}"
+                android:gravity="center"
+                android:text="Add New Relative"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <View
+                android:background="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"></View>
+            <TextView
+                android:onClick="@{()->iMainActivity.onAddExistRelative(id)}"
+                android:gravity="center"
+                android:text="Add Exist Relative"
+                android:textSize="16sp"
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_margin="8dp"
+            android:background="@drawable/curved_white"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</layout>

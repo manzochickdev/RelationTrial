@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"></import>
+        <variable
+            name="visible"
+            type="Boolean"></variable>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_people_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        <View
+            android:id="@+id/view_holder"
+            android:layout_below="@id/rv_people_item"
+            android:background="@android:color/black"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"></View>
+        <include layout="@layout/layout_info_summary"
+            android:layout_below="@id/view_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_info_summary"
+            android:visibility="@{visible ? View.VISIBLE : View.GONE}"></include>
+    </RelativeLayout>
+</layout>

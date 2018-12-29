@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"></import>
+        <variable
+            name="vm"
+            type="com.example.tuananh.module1.RelationView.ViewHandle"></variable>
+        <variable
+            name="model"
+            type="com.example.tuananh.module1.Model.Model"></variable>
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/item_container"
+        android:onClick="@{()->vm.onModelListener(model.id)}"
+        android:gravity="center">
+        <FrameLayout
+            android:layout_width="52dp"
+            android:layout_height="52dp">
+            <ImageView
+                android:visibility="@{vm.root==model.id ? View.VISIBLE : View.GONE}"
+                android:src="@drawable/circle_border"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_gravity="center"
+                android:src="@drawable/image_holder"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+        </FrameLayout>
+        <TextView
+            android:text="@{model.name}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <View
+            android:visibility="@{vm.root==model.id ? View.VISIBLE : View.INVISIBLE}"
+            android:background="@android:color/black"
+            android:layout_width="2dp"
+            android:layout_height="10dp"></View>
+
+    </LinearLayout>
+</layout>
