@@ -20,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.tuananh.module2.IModule2;
-import com.example.tuananh.module2.MapManipulation.PeopleSearch.Adapter;
 import com.example.tuananh.module2.MapManipulation.PlaceSearch.PlaceSearchFragment;
 import com.example.tuananh.module2.ModelAddress;
 import com.example.tuananh.module2.R;

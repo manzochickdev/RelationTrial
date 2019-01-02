@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"></import>
+        <variable
+            name="model"
+            type="com.example.tuananh.module1.Model.Model"></variable>
+        <variable
+            name="clicked"
+            type="Boolean"></variable>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:id="@+id/container">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_profile"
+            android:src="@drawable/image_holder"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+        <TextView
+            android:text="@{model.name}"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/civ_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:visibility="@{clicked ? View.VISIBLE : View.GONE}"
+            android:layout_marginRight="12dp"
+            android:tint="@color/colorAccent"
+            android:src="@drawable/ic_check_black_24dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</layout>

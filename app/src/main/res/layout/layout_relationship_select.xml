@@ -2,53 +2,76 @@
 <layout>
     <data>
         <variable
+            name="iMain2Activity"
+            type="com.example.tuananh.module1.AddEditDetail.IMain2Activity"></variable>
+        <variable
+            name="clicked"
+            type="Integer"></variable>
+        <variable
             name="relationship"
             type="java.util.ArrayList&lt;String>"></variable>
         <variable
             name="onDataHandle"
             type="com.example.tuananh.module1.AddEditDetail.RelaViewModel.OnDataHandle"></variable>
     </data>
-    <ScrollView
+    <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp">
         <LinearLayout
+            android:weightSum="4"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:onClick="@{()->onDataHandle.onDataBack(relationship.get(0))}"
-                android:background="@drawable/curved_rect"
+                android:gravity="center"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:onClick="@{()->iMain2Activity.onRelationshipBack(0)}"
+                android:background="@{clicked==0 ? @drawable/curved_accent : @drawable/curved_rect}"
+                android:textColor="@{clicked==0 ? @color/colorWhite : @color/colorAccent}"
                 android:padding="4dp"
                 android:text="@{relationship.get(0)}"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content" />
             <TextView
-                android:onClick="@{()->onDataHandle.onDataBack(relationship.get(1))}"
+                android:gravity="center"
+                android:background="@{clicked==1 ? @drawable/curved_accent : @drawable/curved_rect}"
+                android:textColor="@{clicked==1 ? @color/colorWhite : @color/colorAccent}"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:onClick="@{()->iMain2Activity.onRelationshipBack(1)}"
                 android:layout_marginLeft="4dp"
-                android:background="@drawable/curved_rect"
                 android:padding="4dp"
                 android:text="@{relationship.get(1)}"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content" />
             <TextView
-                android:onClick="@{()->onDataHandle.onDataBack(relationship.get(2))}"
+                android:gravity="center"
+                android:background="@{clicked==2 ? @drawable/curved_accent : @drawable/curved_rect}"
+                android:textColor="@{clicked==2 ? @color/colorWhite : @color/colorAccent}"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:onClick="@{()->iMain2Activity.onRelationshipBack(2)}"
                 android:layout_marginLeft="4dp"
-                android:background="@drawable/curved_rect"
                 android:padding="4dp"
                 android:text="@{relationship.get(2)}"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content" />
             <TextView
-                android:onClick="@{()->onDataHandle.onDataBack(relationship.get(3))}"
+                android:gravity="center"
+                android:background="@{clicked==3 ? @drawable/curved_accent : @drawable/curved_rect}"
+                android:textColor="@{clicked==3 ? @color/colorWhite : @color/colorAccent}"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:onClick="@{()->iMain2Activity.onRelationshipBack(3)}"
                 android:layout_marginLeft="4dp"
-                android:background="@drawable/curved_rect"
                 android:padding="4dp"
                 android:text="@{relationship.get(3)}"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </ScrollView>
+    </FrameLayout>
 </layout>

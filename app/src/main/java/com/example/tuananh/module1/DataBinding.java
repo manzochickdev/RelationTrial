@@ -40,4 +40,9 @@ public class DataBinding {
             }
         }
     }
+
+    @BindingAdapter("setBitmap")
+    public static void setBitmap(ImageView view,Bitmap bitmap){
+        view.setImageBitmap(bitmap);
+    }
 }

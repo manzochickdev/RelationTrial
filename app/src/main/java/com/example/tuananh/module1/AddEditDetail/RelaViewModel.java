@@ -38,12 +38,14 @@ public class RelaViewModel extends BaseObservable {
     com.example.tuananh.module1.AddEditDetail.OnDataHandle onDataHandle;
     ModelRela modelRela;
     String manipulation;
+    Context context;
 
-    public RelaViewModel(ModelRela modelRela, com.example.tuananh.module1.AddEditDetail.OnDataHandle onDataHandle,String manipulation,Boolean isEdit) {
+    public RelaViewModel(ModelRela modelRela, com.example.tuananh.module1.AddEditDetail.OnDataHandle onDataHandle,String manipulation,Boolean isEdit,Context context) {
         this.modelRela = modelRela;
         this.onDataHandle = onDataHandle;
         this.manipulation = manipulation;
         this.isEdit = isEdit;
+        this.context = context;
         setInterface();
         handleMode();
     }
@@ -103,7 +105,7 @@ public class RelaViewModel extends BaseObservable {
     public void addModelRela(){
         isSelected = true;
         isVisible = !isVisible;
-        onDataHandle.onRelationshipManipulation(onHandler);
+        ((IMain2Activity)context).onSelectListener(onHandler);
         notifyPropertyChanged(BR.visible);
         notifyPropertyChanged(BR.selected);
     }
@@ -112,9 +114,9 @@ public class RelaViewModel extends BaseObservable {
         if (modelRela.relationship!=null && modelRela.model!=null){
             isSelected = false;
             isFinish = true;
+            ((IMain2Activity)context).onSelectFinish();
             notifyPropertyChanged(BR.selected);
             notifyPropertyChanged(BR.visible);
-            onDataHandle.onRelationshipManipulation(null);
             onDataHandle.addNewRelationship();
         }
     }
@@ -125,7 +127,6 @@ public class RelaViewModel extends BaseObservable {
         }
         else {
             onDataHandle.cancelAddRelationship();
-            onDataHandle.onRelationshipManipulation(null);
         }
     }
 
@@ -136,50 +137,50 @@ public class RelaViewModel extends BaseObservable {
 
     @BindingAdapter("setLayout")
     public static void setLayout(LinearLayout view, OnDataHandle onDataHandle){
-        Context context = view.getContext();
-        view.removeAllViewsInLayout();
-        if (onDataHandle!=null){
-            view.setVisibility(View.VISIBLE);
-            View relationshipSelect = LayoutInflater.from(context).inflate(R.layout.layout_relationship_select,null,false);
-            relationshipSelect.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            LayoutRelationshipSelectBinding layoutRelationshipSelectBinding = DataBindingUtil.bind(relationshipSelect);
-            layoutRelationshipSelectBinding.setOnDataHandle(onDataHandle);
-            layoutRelationshipSelectBinding.setRelationship(new ArrayList<>(Arrays.asList(Relationship.getRelationship())));
-            view.addView(relationshipSelect);
-
-            final PeopleSearch peopleSearch = new PeopleSearch(context);
-            view.setVisibility(View.VISIBLE);
-            View peopleSelect = LayoutInflater.from(context).inflate(R.layout.layout_people_select,null,false);
-            peopleSelect.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            LayoutPeopleSelectBinding layoutPeopleSelectBinding = DataBindingUtil.bind(peopleSelect);
-
-            final ArrayList<Model> models = new ArrayList<>();
-            final ArrayList<Model> fromDb = DatabaseHandle.getInstance(context).showPeople();
-            final PeopleSearchAdapter peopleSearchAdapter = new PeopleSearchAdapter(models,context,onDataHandle);
-            layoutPeopleSelectBinding.etSearch.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    models.clear();
-                    models.addAll(peopleSearch.onSearchListener(null,5));
-                    peopleSearchAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    models.clear();
-                    models.addAll(peopleSearch.onSearchListener(charSequence.toString(),5));
-                    peopleSearchAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) { }
-            });
-            layoutPeopleSelectBinding.rvSearch.setAdapter(peopleSearchAdapter);
-            layoutPeopleSelectBinding.rvSearch.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
-            view.addView(peopleSelect);
-        }
-
-        else view.setVisibility(View.GONE);
+//        Context context = view.getContext();
+//        view.removeAllViewsInLayout();
+//        if (onDataHandle!=null){
+//            view.setVisibility(View.VISIBLE);
+//            View relationshipSelect = LayoutInflater.from(context).inflate(R.layout.layout_relationship_select,null,false);
+//            relationshipSelect.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            LayoutRelationshipSelectBinding layoutRelationshipSelectBinding = DataBindingUtil.bind(relationshipSelect);
+//            layoutRelationshipSelectBinding.setOnDataHandle(onDataHandle);
+//            layoutRelationshipSelectBinding.setRelationship(new ArrayList<>(Arrays.asList(Relationship.getRelationship())));
+//            view.addView(relationshipSelect);
+//
+//            final PeopleSearch peopleSearch = new PeopleSearch(context);
+//            view.setVisibility(View.VISIBLE);
+//            View peopleSelect = LayoutInflater.from(context).inflate(R.layout.layout_people_select,null,false);
+//            peopleSelect.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            LayoutPeopleSelectBinding layoutPeopleSelectBinding = DataBindingUtil.bind(peopleSelect);
+//
+//            final ArrayList<Model> models = new ArrayList<>();
+//            final ArrayList<Model> fromDb = DatabaseHandle.getInstance(context).showPeople();
+//            final PeopleSearchAdapter peopleSearchAdapter = new PeopleSearchAdapter(models,context,onDataHandle);
+//            layoutPeopleSelectBinding.etSearch.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                    models.clear();
+//                    models.addAll(peopleSearch.onSearchListener(null,5));
+//                    peopleSearchAdapter.notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                    models.clear();
+//                    models.addAll(peopleSearch.onSearchListener(charSequence.toString(),5));
+//                    peopleSearchAdapter.notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable editable) { }
+//            });
+//            layoutPeopleSelectBinding.rvSearch.setAdapter(peopleSearchAdapter);
+//            layoutPeopleSelectBinding.rvSearch.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+//            view.addView(peopleSelect);
+//        }
+//
+//        else view.setVisibility(View.GONE);
 
     }
 }

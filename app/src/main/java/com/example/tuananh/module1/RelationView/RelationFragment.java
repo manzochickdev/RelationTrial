@@ -11,11 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.tuananh.module1.DatabaseHandle;
 import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.databinding.FragmentRelationBinding;
+import com.example.tuananh.module1.databinding.LayoutPeopleSearchItem1Binding;
 
 import java.util.ArrayList;
 
@@ -44,6 +46,23 @@ public class RelationFragment extends Fragment implements IModule3 {
         fragmentRelationBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_relation, container, false);
         context = getContext();
         databaseHandle = DatabaseHandle.getInstance(context);
+        if (id!=0){
+            init(id);
+        }
+        PeopleSearchAutocompleteAdapter peopleSearchAutocompleteAdapter = new PeopleSearchAutocompleteAdapter(context);
+        fragmentRelationBinding.etSearch.setAdapter(peopleSearchAutocompleteAdapter);
+        fragmentRelationBinding.etSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                LayoutPeopleSearchItem1Binding layoutPeopleSearchItem1Binding = DataBindingUtil.bind(view);
+                Model model = layoutPeopleSearchItem1Binding.getModel();
+                init(model.getId());
+            }
+        });
+        return fragmentRelationBinding.getRoot();
+    }
+
+    void init(int id){
         Model model = databaseHandle.getPerson(id);
         ArrayList<Model> models = new ArrayList<>();
         models.add(model);
@@ -52,7 +71,6 @@ public class RelationFragment extends Fragment implements IModule3 {
         mainAdapter = new MainAdapter(modelViews,context,this);
         fragmentRelationBinding.rvPeople.setAdapter(mainAdapter);
         fragmentRelationBinding.rvPeople.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
-        return fragmentRelationBinding.getRoot();
     }
 
     @Override

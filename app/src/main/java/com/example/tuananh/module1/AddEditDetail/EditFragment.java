@@ -27,13 +27,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.tuananh.module1.DatabaseHandle;
+import com.example.tuananh.module1.Model.Address;
+import com.example.tuananh.module1.Model.InfoModel;
 import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.Model.Relationship;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.databinding.FragmentEditBinding;
 import com.example.tuananh.module1.databinding.LayoutInfoBinding;
 import com.example.tuananh.module1.databinding.LayoutRelationshipBinding;
-import com.example.tuananh.module2.ModelAddress;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.lang.reflect.Array;
@@ -69,7 +70,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         iMain2Activity = (IMain2Activity) context;
         fragmentEditBinding.viewpager.setAdapter(customPagerAdapter);
         fragmentEditBinding.detailTabs.setupWithViewPager(fragmentEditBinding.viewpager);
-        setupCustomTab();
 
         if (isEdit){
             fragmentEditBinding.detailTabs.getTabAt(1).select();
@@ -100,6 +100,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+
         fragmentEditBinding.ivBack.setOnClickListener(this);
         fragmentEditBinding.tvCancel.setOnClickListener(this);
         fragmentEditBinding.tvOk.setOnClickListener(this);
@@ -128,6 +129,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             case R.id.ivProfile :{
                 Bundle bundle = new Bundle();
                 bundle.putInt("mode",1);
+                bundle.putString("activity","Main2Activity");
                 ImagePickerFragment imagePickerFragment = new ImagePickerFragment();
                 imagePickerFragment.setArguments(bundle);
                 imagePickerFragment.show(getFragmentManager(),imagePickerFragment.getTag());
@@ -135,20 +137,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void setupCustomTab() {
-//        View view = LayoutInflater.from(context).inflate(R.layout.layout_custom_tab,null,false);
-//        TextView textView = view.findViewById(R.id.tv_tab);
-//
-//        textView.setText("INFO");
-//        textView.setGravity(Gravity.LEFT);
-//        fragmentEditBinding.detailTabs.getTabAt(0).setCustomView(view);
-//
-//        View view1 = LayoutInflater.from(context).inflate(R.layout.layout_custom_tab,null,false);
-//        TextView textView1 = view1.findViewById(R.id.tv_tab);
-//        textView1.setText("RELATIONSHIP");
-//        textView1.setGravity(Gravity.RIGHT);
-//        fragmentEditBinding.detailTabs.getTabAt(1).setCustomView(view1);
-    }
 
     void setImage(Bitmap image){
         fragmentEditBinding.ivProfile.setImageBitmap(image);
@@ -156,10 +144,11 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setAddress(String address, LatLng latlng) {
-        ModelAddress modelAddress = new ModelAddress(address,latlng);
         View view1 = customPagerAdapter.onViewBack(0);
         LayoutInfoBinding layoutInfoBinding = DataBindingUtil.bind(view1);
-        layoutInfoBinding.setModelAddress(modelAddress);
+        Address addr = layoutInfoBinding.getVm().getInfoModel().getAddress();
+        addr.setAddrLatlng(latlng);
+        addr.setAddrText(address);
 }
 
 

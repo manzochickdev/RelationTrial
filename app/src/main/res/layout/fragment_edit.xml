@@ -100,17 +100,6 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <!--<de.hdodenhof.circleimageview.CircleImageView-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_marginTop="40dp"-->
-            <!--android:id="@+id/ivProfile"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:layout_width="120dp"-->
-            <!--android:layout_height="120dp"-->
-            <!--setProfileImage="@{id}"-->
-            <!--app:civ_border_width="4dp"-->
-            <!--app:civ_border_color="#FFFFFF"-->
-            <!--/>-->
 
         <ImageView
             android:id="@+id/iv_back"

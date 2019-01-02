@@ -9,6 +9,9 @@
     <item android:id="@+id/mi_relationship"
         android:title="Relationship"
         android:icon="@drawable/ic_people_black_24dp"></item>
+    <item android:id="@+id/mi_activity"
+        android:icon="@drawable/ic_bookmark_black_24dp"
+        android:title="Activity"></item>
     <item android:id="@+id/mi_setting"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Setting"></item>

@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.tuananh.module1.DatabaseHandle;
+import com.example.tuananh.module1.Model.InfoModel;
 import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.Model.Relationship;
 import com.example.tuananh.module1.R;
+import com.example.tuananh.module1.Utils.PeopleSearchFragment;
 import com.example.tuananh.module2.MainActivity;
 import com.example.tuananh.module2.ModelAddress;
 import com.google.android.gms.maps.model.LatLng;
@@ -64,25 +66,26 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
             fragmentTransaction.replace(R.id.container,editFragment,"EditFragment");
         }
         fragmentTransaction.commit();
+
     }
 
     @Override
-    public void onDataBack(String name, ArrayList<ModelRela> modelRela, Bitmap bitmap, ModelAddress modelAddress) {
-        if (name!=null && !name.equals("")){
-            Model model = new Model(Model.createId(),name);
-            DatabaseHandle databaseHandle = DatabaseHandle.getInstance(getBaseContext());
-            databaseHandle.addPeople(model);
-            if (modelAddress!=null){databaseHandle.addAddress(model.getId(),modelAddress);}
-            if (modelRela!=null){
-                for (ModelRela m : modelRela){
-                    if (m.relationship!=null && m.model!=null){
-                        databaseHandle.addRelative(model,m.model, Relationship.convertRelationship(m.relationship));
-                    }
+    public void onDataBack(InfoModel infoModel, ArrayList<ModelRela> modelRela, Bitmap bitmap, ModelAddress modelAddress) {
+        Model model = infoModel.getModel();
+        model.setId(Model.createId());
+        DatabaseHandle databaseHandle = DatabaseHandle.getInstance(getBaseContext());
+        databaseHandle.addPeople(model);
+        if (infoModel.getDetailInfo()!=null) databaseHandle.addDetailInfo(infoModel.getDetailInfo(),model.getId());
+        if (modelAddress!=null){databaseHandle.addAddress(model.getId(),modelAddress);}
+        if (modelRela!=null){
+            for (ModelRela m : modelRela){
+                if (m.relationship!=null && m.model!=null){
+                    databaseHandle.addRelative(model,m.model, Relationship.convertRelationship(m.relationship));
                 }
             }
-            if (bitmap!=null){
-                saveBitmap(model.getId(),bitmap);
-            }
+        }
+        if (bitmap!=null){
+            saveBitmap(model.getId(),bitmap);
         }
         onBackPressed();
     }
@@ -140,9 +143,61 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
         onBackPressed();
     }
 
+    RelaViewModel.OnDataHandle onHandler;
+
+    @Override
+    public void onSelectListener(RelaViewModel.OnDataHandle onHandler) {
+        this.onHandler = onHandler;
+        Bundle bundle = new Bundle();
+        bundle.putInt("mode",0);
+        PeopleSearchFragment peopleSearchFragment = new PeopleSearchFragment();
+        peopleSearchFragment.setArguments(bundle);
+        peopleSearchFragment.show(getSupportFragmentManager(),"PeopleSearchFragment");
+    }
+
+    @Override
+    public void onSelectFinish() {
+        PeopleSearchFragment peopleSearchFragment = (PeopleSearchFragment) getSupportFragmentManager().findFragmentByTag("PeopleSearchFragment");
+        peopleSearchFragment.dismiss();
+    }
+
+    @Override
+    public void onDataBack(InfoModel infoModel, ArrayList<ModelRela> modelRelas, Bitmap bitmap) {
+        Model model = infoModel.getModel();
+        model.setId(Model.createId());
+        DatabaseHandle databaseHandle = DatabaseHandle.getInstance(getBaseContext());
+        databaseHandle.addPeople(model);
+        if (infoModel.getDetailInfo()!=null && !infoModel.getDetailInfo().isEmpty()) databaseHandle.addDetailInfo(infoModel.getDetailInfo(),model.getId());
+        if (infoModel.getAddress()!=null && !infoModel.getAddress().isEmpty()){databaseHandle.addAddress(infoModel.getAddress(),model.getId());}
+        if (modelRelas!=null){
+            for (ModelRela m : modelRelas){
+                if (m.relationship!=null && m.model!=null){
+                    databaseHandle.addRelative(model,m.model, Relationship.convertRelationship(m.relationship));
+                }
+            }
+        }
+        if (bitmap!=null){
+            saveBitmap(model.getId(),bitmap);
+        }
+        onBackPressed();
+    }
+
+    @Override
+    public void onRelationshipBack(int i) {
+        onHandler.onDataBack(Relationship.getRelationship()[i]);
+        PeopleSearchFragment peopleSearchFragment = (PeopleSearchFragment) getSupportFragmentManager().findFragmentByTag("PeopleSearchFragment");
+        peopleSearchFragment.notifyRelationSelected(i);
+    }
+
+    @Override
+    public void onModelBack(Model model) {
+        onHandler.onDataBack(model);
+    }
+
+
+
     @Override
     public void onPickAddress() {
-
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         intent.putExtra("mode","pick");
         startActivityForResult(intent,11335);

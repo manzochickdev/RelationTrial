@@ -15,14 +15,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.tuananh.module1.DataBinding;
 import com.example.tuananh.module1.DatabaseHandle;
+import com.example.tuananh.module1.Model.Address;
+import com.example.tuananh.module1.Model.InfoModel;
 import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.databinding.FragmentAddBinding;
 import com.example.tuananh.module1.databinding.LayoutRelationshipBinding;
-import com.example.tuananh.module2.ModelAddress;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -33,7 +35,6 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     int id;
     Boolean isImageProfileChange = false;
     Context context;
-    ModelAddress modelAddress;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +67,19 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                 iMain2Activity.onBackListener();
             }break;
             case R.id.tv_ok :{
-                String name = fragmentAddBinding.layoutInfo.etName.getText().toString();
+                Model model = fragmentAddBinding.layoutInfo.getVm().infoModel.getModel();
+                if (model==null){
+                    Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String name = model.getName();
+                if (name==null || name.trim().length()==0){
+                    Toast.makeText(context, "Name can not be empty", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                InfoModel infoModel = fragmentAddBinding.layoutInfo.getVm().getInfoModel();
+
                 RelationshipAdapter adapter = (RelationshipAdapter) fragmentAddBinding.layoutRelationship.rvRelationship.getAdapter();
                 ArrayList<ModelRela> modelRelas = adapter.getItemList();
                 Bitmap bitmap = null;
@@ -74,11 +87,12 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                     bitmap =((BitmapDrawable) fragmentAddBinding.ivProfile.getDrawable()).getBitmap();
                 }
                 IMain2Activity iMain2Activity = (IMain2Activity) context;
-                iMain2Activity.onDataBack(name,modelRelas,bitmap,modelAddress);
+                iMain2Activity.onDataBack(infoModel,modelRelas,bitmap);
             }break;
             case R.id.ivProfile:{
                 Bundle bundle = new Bundle();
                 bundle.putInt("mode",0);
+                bundle.putString("activity","Main2Activity");
                 ImagePickerFragment imagePickerFragment = new ImagePickerFragment();
                 imagePickerFragment.setArguments(bundle);
                 imagePickerFragment.show(getFragmentManager(),imagePickerFragment.getTag());
@@ -93,8 +107,9 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setAddress(String address, LatLng latlng) {
-        modelAddress = new ModelAddress(address,latlng);
-        fragmentAddBinding.layoutInfo.tvAddress.setText(address);
+        Address addr = fragmentAddBinding.layoutInfo.getVm().getInfoModel().getAddress();
+        addr.setAddrText(address);
+        addr.setAddrLatlng(latlng);
     }
 
 
@@ -109,7 +124,6 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         OnDataHandle onDataHandle = new OnDataHandle() {
             @Override
             public void addNewRelationship() {
-                fragmentAddBinding.layoutRelationship.relationshipHandleContainer.removeAllViewsInLayout();
                 modelRelas.add(new ModelRela());
                 relationshipAdapter.notifyItemInserted(modelRelas.size()-1);
             }
@@ -119,11 +133,6 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                 int position = modelRelas.size()-1;
                 modelRelas.set(position,new ModelRela());
                 relationshipAdapter.notifyItemChanged(position);
-            }
-
-            @Override
-            public void onRelationshipManipulation(RelaViewModel.OnDataHandle onDataHandle) {
-                fragmentAddBinding.layoutRelationship.setOnDataHandle(onDataHandle);
             }
 
             @Override
@@ -142,11 +151,13 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         };
         relationshipAdapter = new RelationshipAdapter(modelRelas,context,onDataHandle,"add");
         fragmentAddBinding.layoutRelationship.rvRelationship.setAdapter(relationshipAdapter);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,4,LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,3,LinearLayoutManager.VERTICAL,false);
         fragmentAddBinding.layoutRelationship.rvRelationship.setLayoutManager(gridLayoutManager);
     }
 
     private void handleInfoLayout() {
+        InfoModel infoModel = InfoModel.getInstance();
+        fragmentAddBinding.layoutInfo.setVm(new InfoViewModel(infoModel,0));
         fragmentAddBinding.layoutInfo.setIsEdit(true);
         fragmentAddBinding.layoutInfo.setIMain2Activity((IMain2Activity) context);
     }

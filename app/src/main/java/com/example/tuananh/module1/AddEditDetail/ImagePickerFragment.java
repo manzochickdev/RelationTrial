@@ -11,11 +11,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tuananh.module1.Activities.IMain3Activity;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.databinding.FragmentImagePickerBinding;
 
@@ -44,13 +47,21 @@ public class ImagePickerFragment extends BottomSheetDialogFragment {
     boolean mStoragePermissionGranted=false;
     FragmentImagePickerBinding fragmentImagePickerBinding;
     IMain2Activity iMain2Activity;
+    IMain3Activity iMain3Activity;
     int mode;
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        mode = bundle.getInt("mode");
+        String act = bundle.getString("activity");
+        if (act.equals("Main2Activity")){
+            mode = bundle.getInt("mode");
+            iMain2Activity = (IMain2Activity) getContext();
+        }
+        else iMain3Activity = (IMain3Activity) getContext();
     }
 
     @SuppressLint("RestrictedApi")
@@ -64,7 +75,6 @@ public class ImagePickerFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentImagePickerBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_image_picker,container,false);
-        iMain2Activity = (IMain2Activity) getContext();
         fragmentImagePickerBinding.btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,13 +129,25 @@ public class ImagePickerFragment extends BottomSheetDialogFragment {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(intent.createChooser(intent,"Select"),9292);
+                if  (iMain3Activity==null){
+                    startActivityForResult(intent.createChooser(intent,"Select"),9292);
+                }
+                else{
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                    startActivityForResult(intent.createChooser(intent,"Select"),9393);
+                }
             } break;
             case R.id.btnStorage:{
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent.createChooser(intent,"Select"),9292);
+               if (iMain3Activity==null){
+                   startActivityForResult(intent.createChooser(intent,"Select"),9292);
+               }
+               else{
+                   intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
+                   startActivityForResult(intent.createChooser(intent,"Select"),9393);
+               }
             } break;
         }
     }
@@ -222,6 +244,7 @@ public class ImagePickerFragment extends BottomSheetDialogFragment {
         startActivityForResult(intent, 993);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -235,10 +258,8 @@ public class ImagePickerFragment extends BottomSheetDialogFragment {
                         dismiss();
                     }
                     catch (Exception e){
-
                     }
                     finally {
-
                     }
                     break;
                 case 9292:
@@ -252,6 +273,20 @@ public class ImagePickerFragment extends BottomSheetDialogFragment {
                     finally { }
                     break;
 
+                case 9393:{
+                    int count = data.getClipData().getItemCount();
+                    Log.d("OK", "onActivityResult: "+count);
+                    for(int i = 0; i < count; i++){
+                        Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),imageUri);
+                            iMain3Activity.onImageBack(bitmap);
+                            dismiss();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }break;
             }
         }
     }

@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".RelationView.RelationFragment">
+        tools:context=".RelationView.RelationFragment"
+        android:orientation="vertical">
 
-        <!-- TODO: Update blank fragment layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:focusableInTouchMode="true"
+            android:focusable="true">
+            <View
+                android:layout_marginTop="4dp"
+                android:id="@+id/ivAdd"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"></View>
+            <RelativeLayout
+                android:id="@+id/rl_search"
+                android:paddingLeft="8dp"
+                android:layout_below="@id/ivAdd"
+                android:background="@drawable/curved_search"
+                android:visibility="visible"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <AutoCompleteTextView
+                    android:padding="4dp"
+                    android:background="@android:color/transparent"
+                    android:id="@+id/et_search"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+        </RelativeLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_people"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-    </FrameLayout>
+    </LinearLayout>
 </layout>

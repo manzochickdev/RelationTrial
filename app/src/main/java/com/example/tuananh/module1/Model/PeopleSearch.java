@@ -7,12 +7,20 @@ import com.example.tuananh.module1.DatabaseHandle;
 import java.util.ArrayList;
 
 public class PeopleSearch {
+    private static PeopleSearch peopleSearch;
     ArrayList<Model> models;
     ArrayList<Model> temp;
 
     public PeopleSearch(Context context) {
         models = DatabaseHandle.getInstance(context).showPeople();
         temp = new ArrayList<>();
+    }
+
+    public static PeopleSearch getInstance(Context context){
+        if (peopleSearch==null){
+            peopleSearch = new PeopleSearch(context);
+        }
+        return peopleSearch;
     }
 
     public ArrayList<Model> onSearchListener(String query,int limit){
@@ -30,6 +38,10 @@ public class PeopleSearch {
             }
         }
         return temp;
+    }
+
+    public static void notifyDataChange(Context context){
+        peopleSearch = new PeopleSearch(context);
     }
 
     public ArrayList<Model> getModels() {

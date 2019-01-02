@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tuananh.module1.DatabaseHandle;
+import com.example.tuananh.module1.Model.Address;
+import com.example.tuananh.module1.Model.DetailInfo;
+import com.example.tuananh.module1.Model.InfoModel;
 import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.Model.Relationship;
 import com.example.tuananh.module1.R;
@@ -74,11 +77,11 @@ public class CustomPagerAdapter extends PagerAdapter {
     private void handleLayoutInfo(View view) {
         LayoutInfoBinding layoutInfoBinding = DataBindingUtil.bind(view);
         layoutInfoBinding.setIsEdit(isEdit);
-        String name = databaseHandle.getName(id);
-
-        ModelAddress modelAddress = databaseHandle.getAddress(id);
-        layoutInfoBinding.setModelAddress(modelAddress);
-        layoutInfoBinding.etName.setText(name);
+        Model model = databaseHandle.getPerson(id);
+        Address address = databaseHandle.getAddr(id);
+        DetailInfo detailInfo = databaseHandle.getDetailInfo(id);
+        InfoModel infoModel = new InfoModel(model,address,detailInfo);
+        layoutInfoBinding.setVm(new InfoViewModel(infoModel,1));
         layoutInfoBinding.setIMain2Activity((IMain2Activity) context);
     }
 
@@ -106,11 +109,6 @@ public class CustomPagerAdapter extends PagerAdapter {
             }
 
             @Override
-            public void onRelationshipManipulation(RelaViewModel.OnDataHandle onDataHandle) {
-                layoutRelationship.setOnDataHandle(onDataHandle);
-            }
-
-            @Override
             public void onRemove(int position) {
                 int pos =-1;
                 for (ModelRela m : modelRelas){
@@ -122,7 +120,6 @@ public class CustomPagerAdapter extends PagerAdapter {
                 }
                 modelRelas.remove(pos);
                 relationshipAdapter.notifyItemRemoved(pos);
-                //databaseHandle.removeRelative(id,position);
             }
         };
         relationshipAdapter = new RelationshipAdapter(modelRelas,context,onDataHandle,"edit");
@@ -143,7 +140,6 @@ public class CustomPagerAdapter extends PagerAdapter {
                 return "Info";
             }
             else return "Relationship";
-        //return "";
     }
 
     public View onViewBack(int pos){
@@ -159,8 +155,18 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     public void handleUpdate(){
         LayoutInfoBinding layoutInfoBinding = DataBindingUtil.bind(layoutInfo);
-        //todo handle info update here
-        String name = layoutInfoBinding.etName.getText().toString();
+        InfoModel infoModel = layoutInfoBinding.getVm().getInfoModel();
+        Model model = infoModel.getModel();
+
+        Address address = infoModel.getAddress();
+        if (address!=null && !address.isEmpty()){
+            if (databaseHandle.getAddr(id)==null){
+                databaseHandle.addAddress(address,id);
+            }
+            else databaseHandle.updateAddress(address,id);
+        }
+        DetailInfo detailInfo = infoModel.getDetailInfo();
+        if (detailInfo!=null && !detailInfo.isEmpty()) databaseHandle.updateDetailInfo(detailInfo,id);
 
         LayoutRelationshipBinding layoutRelationshipBinding = DataBindingUtil.bind(layoutRelationship);
         RelationshipAdapter relationshipAdapter = (RelationshipAdapter) layoutRelationshipBinding.rvRelationship.getAdapter();
@@ -181,20 +187,12 @@ public class CustomPagerAdapter extends PagerAdapter {
             databaseHandle.removeRelative(id,input.get(i).model.getId());
         }
 
-        Model model = databaseHandle.getPerson(id);
-        for (int i=0;i<output.size();i++){
-            databaseHandle.addRelative(model,output.get(i).model, Relationship.convertRelationship(output.get(i).relationship));
-        }
-
-        ModelAddress modelAddress = layoutInfoBinding.getModelAddress();
-        if (modelAddress!=null){
-            if (databaseHandle.getAddress(id)==null){
-                databaseHandle.addAddress(id,modelAddress);
+        if (model.getName()!=null && model.getName().trim().length()>0){
+            databaseHandle.updatePerson(model);
+            for (int i=0;i<output.size();i++){
+                databaseHandle.addRelative(model,output.get(i).model, Relationship.convertRelationship(output.get(i).relationship));
             }
-            else databaseHandle.updateAddress(modelAddress,id);
         }
-
-
 
 
     }

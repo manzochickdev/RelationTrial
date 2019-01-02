@@ -52,7 +52,6 @@ public class SearchAdapter extends ArrayAdapter<ModelAddress> {
 
             if (constraint==null || constraint.length()==0){
                 suggestions.addAll(SearchHandle.getInstance(context).search(null));
-                suggestions.size();
 
             }
             else {
@@ -68,9 +67,6 @@ public class SearchAdapter extends ArrayAdapter<ModelAddress> {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-//            clear();
-//            addAll((List) results.values);
-//            notifyDataSetChanged();
             if (results.count>0){
                 clear();
                 addAll((List) results.values);

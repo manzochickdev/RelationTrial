@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.tuananh.module1.Activities.Main3Activity;
 import com.example.tuananh.module1.AddEditDetail.Main2Activity;
 import com.example.tuananh.module1.DatabaseHandle;
 import com.example.tuananh.module1.Model.Model;
@@ -108,6 +109,16 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
                 mainFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,mainFragment,mainFragment.getTag()).commit();
                 return true;
+            case R.id.mi_activity:{
+                Intent intent = new Intent(MainActivity.this,Main3Activity.class);
+                startActivity(intent);
+            }return true;
+            case R.id.mi_relationship:{
+                RelationFragment relationFragment = new RelationFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_act_container,relationFragment,relationFragment.getTag())
+                        .commit();
+            }return true;
         }
         return false;
     }

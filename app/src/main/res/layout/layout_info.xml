@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.view.View"></import>
+        <variable
+            name="vm"
+            type="com.example.tuananh.module1.AddEditDetail.InfoViewModel"></variable>
         <variable
             name="isEdit"
             type="Boolean"></variable>
-        <variable
-            name="modelAddress"
-            type="com.example.tuananh.module2.ModelAddress"></variable>
         <variable
             name="iMain2Activity"
             type="com.example.tuananh.module1.AddEditDetail.IMain2Activity"></variable>
@@ -26,6 +27,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
             <LinearLayout
+                android:id="@+id/main_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -41,6 +43,7 @@
                         <android.support.design.widget.TextInputEditText
                             android:enabled="@{isEdit}"
                             android:hint="Title"
+                            android:text="@={vm.infoModel.model.prefix}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>
@@ -50,6 +53,7 @@
                         android:layout_weight="2"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:text="@={vm.infoModel.model.dispRela}"
                             android:enabled="@{isEdit}"
                             android:hint="Display Relationship"
                             android:layout_weight="2"
@@ -65,6 +69,7 @@
                         android:enabled="@{isEdit}"
                         android:id="@+id/et_name"
                         android:hint="Name"
+                        android:text="@={vm.infoModel.model.name}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -77,7 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
-                            android:text="@{modelAddress.address}"
+                            android:text="@{vm.infoModel.address.addrText}"
                             android:enabled="false"
                             android:id="@+id/tv_address"
                             android:hint="Address"
@@ -93,6 +98,115 @@
                         android:layout_alignParentRight="true"
                         android:src="@drawable/ic_add_location_black_24dp"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <TextView
+                    android:onClick="@{()->vm.expand()}"
+                    android:visibility="@{vm.expandVisible ? View.VISIBLE : View.GONE}"
+                    android:text="Expand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:visibility="@{!vm.expandVisible ? View.VISIBLE : View.GONE}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/tv_phone"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputEditText
+                            android:enabled="@{isEdit}"
+                            android:hint="Phone"
+                            android:text="@={vm.infoModel.detailInfo.phone}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:id="@+id/tv_alive"
+                        android:text="Is Alive"
+                        android:layout_below="@id/tv_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Switch
+                        android:onClick="@{()->vm.onCheckChange()}"
+                        android:checked="@{vm.alive}"
+                        android:layout_toRightOf="@id/tv_alive"
+                        android:layout_below="@id/tv_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_below="@id/tv_alive"
+                        android:id="@+id/tv_birth"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputEditText
+                            android:enabled="@{isEdit}"
+                            android:hint="Date of birth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:visibility="@{!vm.alive ? View.VISIBLE : View.GONE}"
+                        android:layout_toRightOf="@id/tv_birth"
+                        android:layout_below="@id/tv_alive"
+                        android:id="@+id/tv_death"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputEditText
+                            android:enabled="@{isEdit}"
+                            android:hint="Date of death"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_below="@id/tv_birth"
+                        android:id="@+id/tv_work"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputEditText
+                            android:text="@={vm.infoModel.detailInfo.work}"
+                            android:enabled="@{isEdit}"
+                            android:hint="Work"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_below="@id/tv_work"
+                        android:id="@+id/tv_email"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputEditText
+                            android:text="@={vm.infoModel.detailInfo.email}"
+                            android:enabled="@{isEdit}"
+                            android:hint="E-mail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_below="@id/tv_email"
+                        android:id="@+id/tv_description"
+                        android:layout_marginTop="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.design.widget.TextInputEditText
+                            android:text="@={vm.infoModel.detailInfo.description}"
+                            android:enabled="@{isEdit}"
+                            android:hint="Description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:onClick="@{()->vm.collapse()}"
+                        android:visibility="@{vm.collapseVisible ? View.VISIBLE : View.GONE}"
+                        android:layout_below="@id/tv_description"
+                        android:text="Collapse"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
             </LinearLayout>
