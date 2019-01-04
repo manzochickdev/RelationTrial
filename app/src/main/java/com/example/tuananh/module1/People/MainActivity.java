@@ -15,6 +15,7 @@ import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.RelationView.RelationFragment;
 import com.example.tuananh.module1.RelationView.RelationPickerFragment;
+import com.example.tuananh.module1.Utils.Mode;
 import com.example.tuananh.module2.IModule21;
 import com.example.tuananh.module2.MainFragment;
 

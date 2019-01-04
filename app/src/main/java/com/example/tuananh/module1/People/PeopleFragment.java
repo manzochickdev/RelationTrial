@@ -14,6 +14,7 @@ import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.Model.PeopleSearch;
 import com.example.tuananh.module1.People.Adapter;
 import com.example.tuananh.module1.R;
+import com.example.tuananh.module1.Utils.Mode;
 import com.example.tuananh.module1.databinding.FragmentPeopleBinding;
 
 import java.util.ArrayList;
@@ -23,12 +24,11 @@ public class PeopleFragment extends Fragment {
     FragmentPeopleBinding fragmentPeopleBinding;
     OnDataHandle onDataHandle;
     ArrayList<Model> models;
-    Adapter adapter;
     PeopleSearch peopleSearch;
+    String mode;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         fragmentPeopleBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_people, container, false);
         fragmentPeopleBinding.rvPeople.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         handleData();
@@ -38,8 +38,8 @@ public class PeopleFragment extends Fragment {
     void getData(ArrayList<Model> m){
         models = new ArrayList<>();
         models.addAll(m);
-        adapter = new Adapter(models,getContext());
-        fragmentPeopleBinding.rvPeople.setAdapter(adapter);
+        MainAdapter mainAdapter = new MainAdapter(models,getContext());
+        fragmentPeopleBinding.rvPeople.setAdapter(mainAdapter);
     }
 
     private void handleData() {

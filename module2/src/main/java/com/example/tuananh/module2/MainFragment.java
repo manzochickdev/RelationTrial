@@ -92,6 +92,19 @@ public class MainFragment extends Fragment implements IModule2 {
         mapFragment.moveCamera(latLng,address);
     }
 
+    @Override
+    public void getDirection(LatLng latLng) {
+        mapFragment.getDirection(latLng);
+    }
+
+    @Override
+    public void hideNearby() {
+        NearbyFragment nearbyFragment = (NearbyFragment) getChildFragmentManager().findFragmentByTag("NearbyFragment");
+        if(nearbyFragment!=null){
+            nearbyFragment.getView().setVisibility(View.GONE);
+        }
+    }
+
     public ModelAddress onAddressBack(){
         ModelAddress modelAddress = mapManipulationFragment.getAddress();
         return modelAddress;

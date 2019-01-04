@@ -42,6 +42,10 @@ public class PeopleSearchFragment extends BottomSheetDialogFragment {
         fragmentPeopleSearchBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_people_search, container, false);
         Bundle bundle = this.getArguments();
         int mode = bundle.getInt("mode");
+        String rela = bundle.getString("relationship");
+        int mId = bundle.getInt("id",-1);
+
+
         final PeopleSearch peopleSearch = new PeopleSearch(context);
         models = peopleSearch.onSearchListener(null,10);
         peopleSearchAdapter = new PeopleSearchAdapter(context,models,mode,null);
@@ -54,6 +58,11 @@ public class PeopleSearchFragment extends BottomSheetDialogFragment {
             fragmentPeopleSearchBinding.layoutRelationshipSelect.setClicked(-1);
         }
         else fragmentPeopleSearchBinding.layoutRelationshipSelect.getRoot().setVisibility(View.GONE);
+
+        if (rela!=null){fragmentPeopleSearchBinding.layoutRelationshipSelect.setClicked(Relationship.convertRelationshipDisplay(rela));}
+        else fragmentPeopleSearchBinding.layoutRelationshipSelect.setClicked(-1);
+        if (mId!=0) {peopleSearchAdapter.setClicked(mId);} else peopleSearchAdapter.setClicked(-1);
+
 
         fragmentPeopleSearchBinding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -75,15 +84,4 @@ public class PeopleSearchFragment extends BottomSheetDialogFragment {
         fragmentPeopleSearchBinding.layoutRelationshipSelect.setClicked(clicked);
     }
 
-    @Override
-    public void dismiss() {
-        super.dismiss();
-        ((IMain3Activity)getContext()).testModel();
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        ((IMain3Activity)getContext()).testModel();
-    }
 }

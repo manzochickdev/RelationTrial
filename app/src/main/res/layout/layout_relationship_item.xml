@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <RelativeLayout
+                android:onClick="@{()->viewModel.getSelectedDialog()}"
                 android:gravity="center"
                 android:visibility="@{viewModel.visible ? View.VISIBLE : View.INVISIBLE}"
                 android:layout_width="match_parent"

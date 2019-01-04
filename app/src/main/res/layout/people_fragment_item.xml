@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="model"
+            type="com.example.tuananh.module1.Model.Model"></variable>
+    </data>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/people_item_container"
+        android:padding="4dp"
+        android:layout_marginTop="8dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            setProfileImage="@{model.id}"
+            app:civ_border_color="@color/colorAccent"
+            android:id="@+id/civProfile"
+            android:layout_centerHorizontal="true"
+            android:layout_width="64dp"
+            android:layout_height="64dp"/>
+        <TextView
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:id="@+id/tv_name"
+            android:textSize="14sp"
+            android:text="@{model.displayName}"
+            android:layout_marginTop="8dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/civProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="-4dp"
+            android:text="@{model.dispRela}"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</layout>

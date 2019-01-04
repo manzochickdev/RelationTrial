@@ -16,6 +16,13 @@ public class DetailInfo {
     }
 
     public DetailInfo() {
+        this.phone = "";
+        this.work = "";
+        this.email = "";
+        this.description = "";
+        this.dBirth = 0;
+        this.dDeath = 0;
+        this.age = 0;
     }
 
     public String getPhone() {

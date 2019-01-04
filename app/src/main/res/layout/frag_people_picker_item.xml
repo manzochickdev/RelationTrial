@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"></import>
+        <variable
+            name="model"
+            type="com.example.tuananh.module1.Model.Model"></variable>
+        <variable
+            name="isChecked"
+            type="Boolean"></variable>
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/people_item_container">
+        <ImageView
+            android:visibility="@{isChecked ? View.VISIBLE : View.GONE}"
+            android:layout_alignParentRight="true"
+            android:tint="#000"
+            android:src="@drawable/ic_check_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            setProfileImage="@{model.id}"
+            app:civ_border_color="@color/colorAccent"
+            android:id="@+id/civProfile"
+            android:layout_centerHorizontal="true"
+            android:layout_width="77dp"
+            android:layout_height="77dp"/>
+        <TextView
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:id="@+id/tv_name"
+            android:textSize="16sp"
+            android:text="@{model.displayName}"
+            android:layout_marginTop="8dp"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/civProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginTop="-4dp"
+            android:text="@{model.dispRela}"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</layout>

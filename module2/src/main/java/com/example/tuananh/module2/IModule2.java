@@ -12,4 +12,8 @@ public interface IModule2 {
     void onNearbyShow(ArrayList<Integer> id,LatLng latLng);
 
     void moveCamera(LatLng latLng, String address);
+
+    void getDirection(LatLng latLng);
+
+    void hideNearby();
 }

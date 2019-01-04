@@ -24,6 +24,7 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     boolean isRootChange;
 
     public Adapter(ArrayList<Model> models, Context context) {
+        //todo obsolete
         this.context = context;
         list = handleList(models);
         iMainActivity = (IMainActivity) context;

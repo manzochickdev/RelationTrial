@@ -36,4 +36,12 @@ public class Relationship {
             default : return null;
         }
     }
+
+    public static int convertRelationshipDisplay(String s){
+        if (s.equals(relationship[0])) return 0;
+        if (s.equals(relationship[1])) return 1;
+        if (s.equals(relationship[2])) return 2;
+        if (s.equals(relationship[3])) return 3;
+        return -1;
+    }
 }

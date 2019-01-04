@@ -15,7 +15,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DataBinding {
     @BindingAdapter("setProfileImage")
     public static void setProfileImage(CircleImageView view,int id){
-        if(id!=-1){
+        if(id!=0){
             File file = new File(view.getContext().getFilesDir(),Integer.toString(id));
             try {
                 Bitmap bm = BitmapFactory.decodeStream(new FileInputStream(file));

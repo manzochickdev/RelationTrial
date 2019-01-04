@@ -105,7 +105,7 @@ public class RelaViewModel extends BaseObservable {
     public void addModelRela(){
         isSelected = true;
         isVisible = !isVisible;
-        ((IMain2Activity)context).onSelectListener(onHandler);
+        getSelectedDialog();
         notifyPropertyChanged(BR.visible);
         notifyPropertyChanged(BR.selected);
     }
@@ -119,6 +119,10 @@ public class RelaViewModel extends BaseObservable {
             notifyPropertyChanged(BR.visible);
             onDataHandle.addNewRelationship();
         }
+    }
+
+    public void getSelectedDialog(){
+        if (!isFinish) ((IMain2Activity)context).onSelectListener(onHandler,modelRela);
     }
 
     public void handleRemove(){

@@ -45,7 +45,8 @@
                             android:hint="Title"
                             android:text="@={vm.infoModel.model.prefix}"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"/>
                     </android.support.design.widget.TextInputLayout>
                     <android.support.design.widget.TextInputLayout
                         android:layout_marginLeft="8dp"
@@ -58,7 +59,8 @@
                             android:hint="Display Relationship"
                             android:layout_weight="2"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"/>
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
                 <android.support.design.widget.TextInputLayout
@@ -66,6 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <android.support.design.widget.TextInputEditText
+                        android:textSize="16sp"
                         android:enabled="@{isEdit}"
                         android:id="@+id/et_name"
                         android:hint="Name"
@@ -82,6 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:textSize="16sp"
                             android:text="@{vm.infoModel.address.addrText}"
                             android:enabled="false"
                             android:id="@+id/tv_address"
@@ -100,12 +104,26 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
-                <TextView
+                <LinearLayout
+                    android:gravity="center"
                     android:onClick="@{()->vm.expand()}"
                     android:visibility="@{vm.expandVisible ? View.VISIBLE : View.GONE}"
-                    android:text="Expand"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:textSize="16sp"
+                        android:onClick="@{()->vm.expand()}"
+                        android:visibility="@{vm.expandVisible ? View.VISIBLE : View.GONE}"
+                        android:text="Expand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_marginTop="-3dp"
+                        android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
                 <RelativeLayout
                     android:visibility="@{!vm.expandVisible ? View.VISIBLE : View.GONE}"
                     android:layout_width="match_parent"
@@ -117,6 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:textSize="16sp"
                             android:enabled="@{isEdit}"
                             android:hint="Phone"
                             android:text="@={vm.infoModel.detailInfo.phone}"
@@ -143,6 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:textSize="16sp"
                             android:enabled="@{isEdit}"
                             android:hint="Date of birth"
                             android:layout_width="match_parent"
@@ -157,6 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:textSize="16sp"
                             android:enabled="@{isEdit}"
                             android:hint="Date of death"
                             android:layout_width="match_parent"
@@ -169,6 +190,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:textSize="16sp"
                             android:text="@={vm.infoModel.detailInfo.work}"
                             android:enabled="@{isEdit}"
                             android:hint="Work"
@@ -182,6 +204,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:textSize="16sp"
                             android:text="@={vm.infoModel.detailInfo.email}"
                             android:enabled="@{isEdit}"
                             android:hint="E-mail"
@@ -195,19 +218,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <android.support.design.widget.TextInputEditText
+                            android:textSize="16sp"
                             android:text="@={vm.infoModel.detailInfo.description}"
                             android:enabled="@{isEdit}"
                             android:hint="Description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>
-                    <TextView
+                    <LinearLayout
+                        android:gravity="center"
                         android:onClick="@{()->vm.collapse()}"
                         android:visibility="@{vm.collapseVisible ? View.VISIBLE : View.GONE}"
                         android:layout_below="@id/tv_description"
-                        android:text="Collapse"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:src="@drawable/ic_keyboard_arrow_up_black_24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:textSize="16sp"
+                            android:layout_marginTop="-4dp"
+                            android:text="Collapse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
 

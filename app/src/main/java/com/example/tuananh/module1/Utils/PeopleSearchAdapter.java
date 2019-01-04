@@ -82,6 +82,11 @@ public class PeopleSearchAdapter extends RecyclerView.Adapter<PeopleSearchAdapte
         return models.size();
     }
 
+    public void setClicked(int clicked) {
+        this.clicked = clicked;
+        notifyDataSetChanged();
+    }
+
     protected class ViewHolder extends RecyclerView.ViewHolder {
         LayoutPeopleSearchItem1Binding layoutPeopleSearchItemBinding;
         public ViewHolder(@NonNull View itemView) {

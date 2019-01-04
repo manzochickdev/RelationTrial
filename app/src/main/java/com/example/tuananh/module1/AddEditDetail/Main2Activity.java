@@ -14,6 +14,8 @@ import com.example.tuananh.module1.Model.InfoModel;
 import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.Model.Relationship;
 import com.example.tuananh.module1.R;
+import com.example.tuananh.module1.Utils.FragPeoplePicker;
+import com.example.tuananh.module1.Utils.Mode;
 import com.example.tuananh.module1.Utils.PeopleSearchFragment;
 import com.example.tuananh.module2.MainActivity;
 import com.example.tuananh.module2.ModelAddress;
@@ -146,19 +148,30 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
     RelaViewModel.OnDataHandle onHandler;
 
     @Override
-    public void onSelectListener(RelaViewModel.OnDataHandle onHandler) {
+    public void onSelectListener(RelaViewModel.OnDataHandle onHandler,ModelRela modelRela) {
         this.onHandler = onHandler;
         Bundle bundle = new Bundle();
-        bundle.putInt("mode",0);
-        PeopleSearchFragment peopleSearchFragment = new PeopleSearchFragment();
-        peopleSearchFragment.setArguments(bundle);
-        peopleSearchFragment.show(getSupportFragmentManager(),"PeopleSearchFragment");
+        if (modelRela!=null){
+            if (modelRela.relationship!=null) bundle.putString("relationship",modelRela.relationship);
+            if (modelRela.model!=null) bundle.putInt("id",modelRela.model.getId());
+        }
+        bundle.putString("mode", Mode.PEOPLE_SEARCH_SINGLE);
+//        PeopleSearchFragment peopleSearchFragment = new PeopleSearchFragment();
+//        peopleSearchFragment.setArguments(bundle);
+//        peopleSearchFragment.show(getSupportFragmentManager(),"PeopleSearchFragment");
+        FragPeoplePicker fragPeoplePicker = new FragPeoplePicker();
+        fragPeoplePicker.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.container,fragPeoplePicker,"FragPeoplePicker")
+                .addToBackStack("FragPeoplePicker")
+                .commit();
     }
 
     @Override
     public void onSelectFinish() {
-        PeopleSearchFragment peopleSearchFragment = (PeopleSearchFragment) getSupportFragmentManager().findFragmentByTag("PeopleSearchFragment");
-        peopleSearchFragment.dismiss();
+//        PeopleSearchFragment peopleSearchFragment = (PeopleSearchFragment) getSupportFragmentManager().findFragmentByTag("PeopleSearchFragment");
+//        peopleSearchFragment.dismiss();
+        onBackPressed();
     }
 
     @Override
@@ -167,8 +180,9 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
         model.setId(Model.createId());
         DatabaseHandle databaseHandle = DatabaseHandle.getInstance(getBaseContext());
         databaseHandle.addPeople(model);
+
         if (infoModel.getDetailInfo()!=null && !infoModel.getDetailInfo().isEmpty()) databaseHandle.addDetailInfo(infoModel.getDetailInfo(),model.getId());
-        if (infoModel.getAddress()!=null && !infoModel.getAddress().isEmpty()){databaseHandle.addAddress(infoModel.getAddress(),model.getId());}
+        if (infoModel.getAddress().getAddrText()!=null && infoModel.getAddress().getAddrLatlng()!=null ){databaseHandle.addAddress(infoModel.getAddress(),model.getId());}
         if (modelRelas!=null){
             for (ModelRela m : modelRelas){
                 if (m.relationship!=null && m.model!=null){
@@ -184,9 +198,12 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
 
     @Override
     public void onRelationshipBack(int i) {
+//        PeopleSearchFragment peopleSearchFragment = (PeopleSearchFragment) getSupportFragmentManager().findFragmentByTag("PeopleSearchFragment");
+//        peopleSearchFragment.notifyRelationSelected(i);
+
+        FragPeoplePicker fragPeoplePicker = (FragPeoplePicker) getSupportFragmentManager().findFragmentByTag("FragPeoplePicker");
+        fragPeoplePicker.notifyRelationSelected(i);
         onHandler.onDataBack(Relationship.getRelationship()[i]);
-        PeopleSearchFragment peopleSearchFragment = (PeopleSearchFragment) getSupportFragmentManager().findFragmentByTag("PeopleSearchFragment");
-        peopleSearchFragment.notifyRelationSelected(i);
     }
 
     @Override

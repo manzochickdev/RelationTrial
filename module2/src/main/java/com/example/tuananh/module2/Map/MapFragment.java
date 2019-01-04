@@ -62,6 +62,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleMa
     IModule2 iModule2;
     Context context;
     String mode;
+    LatLng currentLocation;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,7 +131,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleMa
             @Override
             public void onSuccess(Location location) {
                 if(location!=null){
-                    LatLng currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                    currentLocation = new LatLng(location.getLatitude(),location.getLongitude());
                     String data="";
                     Geocoder geocoder = new Geocoder(context, Locale.getDefault());
                     try {
@@ -180,8 +181,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                     finally {
                         iModule2.onAddressBack(s,position);
                     }
+
                 }
             });
+
         }
         else {
             googleMap.setOnCameraIdleListener(null);
@@ -202,6 +205,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleMa
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void getDirection(LatLng latLng) {
+        Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+currentLocation.latitude+","+currentLocation.longitude+"&destination="+latLng.latitude+","+latLng.longitude));
+        startActivity(intent);
     }
 
     public void handleMode(int mod){
@@ -314,4 +322,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                 break;
         }
     }
+
 }

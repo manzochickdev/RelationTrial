@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tuananh.module2.DatabaseHandle;
+import com.example.tuananh.module2.IModule2;
+import com.example.tuananh.module2.IModule21;
 import com.example.tuananh.module2.Model;
 import com.example.tuananh.module2.ModelAddress;
 import com.example.tuananh.module2.R;
@@ -26,15 +28,40 @@ import java.util.ArrayList;
 public class NearbyFragment extends Fragment {
     DatabaseHandle databaseHandle;
     FragmentNearbyBinding fragmentNearbyBinding;
+    IModule2 iModule2;
+    OnDataListener onDataListener;
+    Model model;
+    LatLng latLng;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         fragmentNearbyBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_nearby, container, false);
+        iModule2 = (IModule2) getParentFragment();
         databaseHandle = DatabaseHandle.getInstance(getContext());
+        onDataListener = new OnDataListener() {
+            @Override
+            public void onModelBack(Model m) {
+                model = m;
+                fragmentNearbyBinding.setModel(m);
+            }
+        };
+        fragmentNearbyBinding.tvDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((IModule21)getContext()).getDetailInfo(model.getId());
+            }
+        });
+        fragmentNearbyBinding.tvDirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((IModule2) getParentFragment()).getDirection(latLng);
+            }
+        });
         return fragmentNearbyBinding.getRoot();
     }
+
 
 
     public void onAddressBack(String text, LatLng latLng){
@@ -42,6 +69,7 @@ public class NearbyFragment extends Fragment {
     }
 
     public void showNearby(ArrayList<Integer> id,LatLng latLng) {
+        this.latLng = latLng;
 //        nearby.clear();
 //        for(ModelAddress m : modelAddresses){
 //            float[] n=new float[1];
@@ -66,10 +94,15 @@ public class NearbyFragment extends Fragment {
             Model model = new Model(i,name);
             nearby.add(model);
         }
-        Adapter adapter = new Adapter(nearby,latLng,getContext());
+        Adapter adapter = new Adapter(nearby,latLng,iModule2,getContext(),onDataListener);
         fragmentNearbyBinding.rv.setAdapter(adapter);
         fragmentNearbyBinding.rv.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
 
+    }
+
+
+    public interface OnDataListener{
+        void onModelBack(Model model);
     }
 
 }

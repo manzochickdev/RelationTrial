@@ -20,7 +20,7 @@ public interface IMain2Activity {
 
     void handleDelete(int id);
 
-    void onSelectListener(RelaViewModel.OnDataHandle onHandler);
+    void onSelectListener(RelaViewModel.OnDataHandle onHandler,ModelRela modelRela);
     void onRelationshipBack(int i);
     void onModelBack(Model model);
 

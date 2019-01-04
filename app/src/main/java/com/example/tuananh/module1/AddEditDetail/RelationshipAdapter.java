@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.tuananh.module1.R;
+import com.example.tuananh.module1.databinding.LayoutRelationItemBinding;
 import com.example.tuananh.module1.databinding.LayoutRelationshipItemBinding;
 
 import java.util.ArrayList;
