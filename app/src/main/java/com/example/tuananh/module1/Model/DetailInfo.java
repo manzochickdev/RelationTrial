@@ -1,5 +1,8 @@
 package com.example.tuananh.module1.Model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DetailInfo {
     String phone,work,email,description;
     long dBirth,dDeath;
@@ -61,12 +64,30 @@ public class DetailInfo {
         return dBirth;
     }
 
+    public String getDBirthText(){
+        if (dBirth>0) return DateCast(dBirth);
+        return "";
+    }
+
+
     public void setdBirth(long dBirth) {
         this.dBirth = dBirth;
     }
 
     public long getdDeath() {
         return dDeath;
+    }
+    public String getDDeathText(){
+        if (dDeath>0) return DateCast(dDeath);
+        return "";
+    }
+
+    private String DateCast(long time) {
+        Date date = new Date(time);
+        String pattern = "dd/MM/yyyy";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String d = simpleDateFormat.format(date);
+        return d;
     }
 
     public void setdDeath(long dDeath) {

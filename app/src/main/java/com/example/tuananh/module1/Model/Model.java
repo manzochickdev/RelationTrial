@@ -16,6 +16,8 @@ public class Model {
     }
 
     public Model() {
+        this.prefix="";
+        this.dispRela="";
     }
 
     public Model(int id, String name, String prefix, String dispRela) {

@@ -157,7 +157,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     private void handleInfoLayout() {
         InfoModel infoModel = InfoModel.getInstance();
-        fragmentAddBinding.layoutInfo.setVm(new InfoViewModel(infoModel,0));
+        fragmentAddBinding.layoutInfo.setVm(new InfoViewModel(infoModel,context,0));
         fragmentAddBinding.layoutInfo.setIsEdit(true);
         fragmentAddBinding.layoutInfo.setIMain2Activity((IMain2Activity) context);
     }

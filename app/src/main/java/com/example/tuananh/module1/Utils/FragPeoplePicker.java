@@ -76,6 +76,13 @@ public class FragPeoplePicker extends BottomSheetDialogFragment {
             }
         });
 
+        fragPeoplePickerBinding.ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((IMain2Activity) getContext()).onBackListener();
+            }
+        });
+
         return fragPeoplePickerBinding.getRoot();
     }
 

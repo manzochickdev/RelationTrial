@@ -1,5 +1,6 @@
 package com.example.tuananh.module1.AddEditDetail;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.DatePicker;
 
 import com.example.tuananh.module1.DatabaseHandle;
 import com.example.tuananh.module1.Model.InfoModel;
@@ -27,6 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class Main2Activity extends AppCompatActivity implements IMain2Activity {
     String mode;
@@ -77,8 +80,8 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
         model.setId(Model.createId());
         DatabaseHandle databaseHandle = DatabaseHandle.getInstance(getBaseContext());
         databaseHandle.addPeople(model);
-        if (infoModel.getDetailInfo()!=null) databaseHandle.addDetailInfo(infoModel.getDetailInfo(),model.getId());
-        if (modelAddress!=null){databaseHandle.addAddress(model.getId(),modelAddress);}
+        if (infoModel.getDetailInfo()!=null && !infoModel.getDetailInfo().isEmpty()) databaseHandle.addDetailInfo(infoModel.getDetailInfo(),model.getId());
+        if (infoModel.getAddress().getAddrText()!=null && infoModel.getAddress().getAddrLatlng()!=null){databaseHandle.addAddress(infoModel.getAddress(),model.getId());}
         if (modelRela!=null){
             for (ModelRela m : modelRela){
                 if (m.relationship!=null && m.model!=null){
@@ -194,6 +197,29 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
             saveBitmap(model.getId(),bitmap);
         }
         onBackPressed();
+    }
+
+    @Override
+    public void onBDaySet(long dDeath) {
+        Calendar c = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                Log.d("OK", "onDateSet: "+i+"--"+i1+"--"+i2);
+            }
+        };
+        DatePickerDialog dialog = new DatePickerDialog(getBaseContext(),
+                onDateSetListener,
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH));
+        if (dDeath>0) dialog.getDatePicker().setMaxDate(dDeath);
+        dialog.show();
+    }
+
+    @Override
+    public void onDDatSet(long dDeath) {
+
     }
 
     @Override

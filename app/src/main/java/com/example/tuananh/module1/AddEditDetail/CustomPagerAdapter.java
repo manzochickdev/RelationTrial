@@ -81,7 +81,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         Address address = databaseHandle.getAddr(id);
         DetailInfo detailInfo = databaseHandle.getDetailInfo(id);
         InfoModel infoModel = new InfoModel(model,address,detailInfo);
-        layoutInfoBinding.setVm(new InfoViewModel(infoModel,1));
+        layoutInfoBinding.setVm(new InfoViewModel(infoModel,context,1));
         layoutInfoBinding.setIMain2Activity((IMain2Activity) context);
     }
 

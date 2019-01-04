@@ -17,6 +17,12 @@ import java.util.ArrayList;
 public class TaggedPeopleAdapter extends RecyclerView.Adapter<TaggedPeopleAdapter.ViewHolder> {
     Context context;
     ArrayList<Model> models;
+
+    public TaggedPeopleAdapter(Context context, ArrayList<Model> models) {
+        this.context = context;
+        this.models = models;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

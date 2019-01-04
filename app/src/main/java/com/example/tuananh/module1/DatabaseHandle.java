@@ -55,6 +55,8 @@ public class DatabaseHandle extends SQLiteOpenHelper {
                 ",work text,email text,description text" +
                 ",foreign key (main_id) references people(id));";
 
+
+
         //todo q2 add column mother_id
         db.execSQL(q1);
         db.execSQL(q2);

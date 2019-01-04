@@ -208,8 +208,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleMa
     }
 
     public void getDirection(LatLng latLng) {
-        Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+currentLocation.latitude+","+currentLocation.longitude+"&destination="+latLng.latitude+","+latLng.longitude));
-        startActivity(intent);
+        if  (currentLocation!=null){
+            Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.google.com/maps/dir/?api=1&origin="+currentLocation.latitude+","+currentLocation.longitude+"&destination="+latLng.latitude+","+latLng.longitude));
+            startActivity(intent);
+        }
+        else Toast.makeText(context, "Get Location Error", Toast.LENGTH_SHORT).show();
     }
 
     public void handleMode(int mod){

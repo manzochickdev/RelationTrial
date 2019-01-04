@@ -93,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
         bundle.putInt("id",id);
         RelationFragment relationFragment = new RelationFragment();
         relationFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,relationFragment,relationFragment.getTag()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,relationFragment,relationFragment.getTag())
+                .addToBackStack(relationFragment.getTag())
+                .commit();
     }
 
     @Override
@@ -108,7 +110,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
                 bundle.putString("mode","view");
                 MainFragment mainFragment = new MainFragment();
                 mainFragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,mainFragment,mainFragment.getTag()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,mainFragment,mainFragment.getTag())
+                        .addToBackStack(mainFragment.getTag())
+                        .commit();
                 return true;
             case R.id.mi_activity:{
                 Intent intent = new Intent(MainActivity.this,Main3Activity.class);
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
                 RelationFragment relationFragment = new RelationFragment();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main_act_container,relationFragment,relationFragment.getTag())
+                        .addToBackStack(relationFragment.getTag())
                         .commit();
             }return true;
         }

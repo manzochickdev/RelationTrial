@@ -27,4 +27,7 @@ public interface IMain2Activity {
     void onSelectFinish();
 
     void onDataBack(InfoModel infoModel, ArrayList<ModelRela> modelRelas, Bitmap bitmap);
+
+    void onBDaySet(long dDeath);
+    void onDDatSet(long dBirth);
 }
