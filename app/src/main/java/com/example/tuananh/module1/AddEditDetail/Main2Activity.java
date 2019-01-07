@@ -33,6 +33,7 @@ import java.util.Calendar;
 
 public class Main2Activity extends AppCompatActivity implements IMain2Activity {
     String mode;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +48,14 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
         }
         else if (mode.equals("addNew")){
             Bundle bundle = new Bundle();
-            bundle.putInt("id",getIntent().getIntExtra("id",-1));
+            id=getIntent().getIntExtra("id",-1);
+            bundle.putInt("id",id);
             AddFragment addFragment = new AddFragment();
             addFragment.setArguments(bundle);
             fragmentTransaction.replace(R.id.container,addFragment,"AddFragment");
         }
         else if (mode.equals("view")) {
-            int id = getIntent().getIntExtra("id",-1);
+            id = getIntent().getIntExtra("id",-1);
             Bundle bundle = new Bundle();
             bundle.putInt("id",id);
             EditFragment editFragment = new EditFragment();
@@ -62,7 +64,7 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
         }
         else{
             //"addExisting"
-            int id = getIntent().getIntExtra("id",-1);
+            id = getIntent().getIntExtra("id",-1);
             Bundle bundle = new Bundle();
             bundle.putInt("id",id);
             bundle.putBoolean("isEdit",true);
@@ -220,6 +222,14 @@ public class Main2Activity extends AppCompatActivity implements IMain2Activity {
     @Override
     public void onDDatSet(long dDeath) {
 
+    }
+
+    @Override
+    public void onFinish() {
+        Intent intent = new Intent();
+        intent.putExtra("id",id);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
     @Override

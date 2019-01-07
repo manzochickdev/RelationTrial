@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.example.tuananh.module1.Activities.IMain3Activity;
 import com.example.tuananh.module1.AddEditDetail.IMain2Activity;
 import com.example.tuananh.module1.Model.Model;
+import com.example.tuananh.module1.People.IMainActivity;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.databinding.FragPeoplePickerItemBinding;
 
@@ -57,9 +58,14 @@ public class FragPeoplePickerAdapter extends RecyclerView.Adapter<FragPeoplePick
         viewHolder.fragPeoplePickerItemBinding.peopleItemContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mode.equals(Mode.PEOPLE_SEARCH_SINGLE)){
+                if (mode.equals(Mode.PEOPLE_SEARCH_SINGLE) || mode.equals(Mode.PEOPLE_SEARCH_PICKER)){
                     sClicked = model.getId();
-                    ((IMain2Activity) context).onModelBack(model);
+                    if (context instanceof IMain2Activity){
+                        ((IMain2Activity) context).onModelBack(model);
+                    }
+                    else if(context instanceof IMainActivity){
+                        ((IMainActivity) context).onPeoplePicker(model);
+                    }
                 }
                 else{
                     if (viewHolder.fragPeoplePickerItemBinding.getIsChecked()){

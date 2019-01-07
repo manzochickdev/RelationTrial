@@ -15,7 +15,10 @@ import android.widget.AdapterView;
 
 import com.example.tuananh.module1.DatabaseHandle;
 import com.example.tuananh.module1.Model.Model;
+import com.example.tuananh.module1.People.IMainActivity;
 import com.example.tuananh.module1.R;
+import com.example.tuananh.module1.Utils.FragPeoplePicker;
+import com.example.tuananh.module1.Utils.Mode;
 import com.example.tuananh.module1.databinding.FragmentRelationBinding;
 import com.example.tuananh.module1.databinding.LayoutPeopleSearchItem1Binding;
 
@@ -59,10 +62,27 @@ public class RelationFragment extends Fragment implements IModule3 {
                 init(model.getId());
             }
         });
+        fragmentRelationBinding.ivRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentRelationBinding.rvPeople.setAdapter(null);
+                fragmentRelationBinding.rvPeople.setVisibility(View.GONE);
+                fragmentRelationBinding.ivPicker.setVisibility(View.VISIBLE);
+            }
+        });
+
+        fragmentRelationBinding.ivPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((IMainActivity) context).getFragPeoplePicker();
+            }
+        });
         return fragmentRelationBinding.getRoot();
     }
 
-    void init(int id){
+    public void init(int id){
+        fragmentRelationBinding.rvPeople.setVisibility(View.VISIBLE);
+        fragmentRelationBinding.ivPicker.setVisibility(View.GONE);
         Model model = databaseHandle.getPerson(id);
         ArrayList<Model> models = new ArrayList<>();
         models.add(model);
@@ -198,6 +218,12 @@ public class RelationFragment extends Fragment implements IModule3 {
         return true;
     }
 
+    public void notifyModelChange(int edittedModelId){
+        updateParent(edittedModelId);
+        updateChild(edittedModelId);
+        updateSibling(edittedModelId);
+    }
+
 
     private void getSummaryInfo(int id) {
         int pos = getPosition(id)[1];
@@ -217,5 +243,18 @@ public class RelationFragment extends Fragment implements IModule3 {
             }
         }
         return temp;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (context instanceof IMainActivity){
+            ((IMainActivity) context).notifySelectedMenuItem(3);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

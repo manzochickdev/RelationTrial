@@ -60,19 +60,6 @@ class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
             }
         });
-//        viewHolder.layoutPeopleNearbyBinding.tvDirection.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                iModule2.getDirection(latLng);
-//            }
-//        });
-//        viewHolder.layoutPeopleNearbyBinding.tvDetail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                IModule21 iModule21 = (IModule21) context;
-//                iModule21.getDetailInfo(models.get(i).getId());
-//            }
-//        });
         viewHolder.layoutPeopleNearbyBinding.executePendingBindings();
     }
 

@@ -1,29 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--todo : set refresh to add people-->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".RelationView.RelationFragment"
-        android:orientation="vertical">
+        tools:context=".RelationView.RelationFragment">
 
         <RelativeLayout
+            android:id="@+id/top_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="@color/colorAccent"
             android:focusableInTouchMode="true"
             android:focusable="true">
-            <View
-                android:layout_marginTop="4dp"
+            <RelativeLayout
                 android:id="@+id/ivAdd"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"></View>
+                android:layout_height="match_parent">
+                <TextView
+                    android:textColor="@color/colorWhite"
+                    android:layout_centerInParent="true"
+                    android:textSize="18sp"
+                    android:text="Relation View"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/iv_refresh"
+                    android:layout_marginRight="12dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_autorenew_black_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/rl_search"
                 android:paddingLeft="8dp"
                 android:layout_below="@id/ivAdd"
                 android:background="@drawable/curved_search"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
@@ -40,10 +57,18 @@
 
             </RelativeLayout>
         </RelativeLayout>
+        <ImageView
+            android:layout_margin="12dp"
+            android:id="@+id/iv_picker"
+            android:layout_below="@id/top_container"
+            android:src="@drawable/ic_add_circle_outline_black_24dp"
+            android:layout_width="66dp"
+            android:layout_height="66dp" />
         <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/top_container"
             android:id="@+id/rv_people"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

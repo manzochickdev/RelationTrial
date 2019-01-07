@@ -2,6 +2,7 @@ package com.example.tuananh.module1.People;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.example.tuananh.module1.Model.Model;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.RelationView.RelationFragment;
 import com.example.tuananh.module1.RelationView.RelationPickerFragment;
+import com.example.tuananh.module1.Utils.FragPeoplePicker;
 import com.example.tuananh.module1.Utils.Mode;
 import com.example.tuananh.module2.IModule21;
 import com.example.tuananh.module2.MainFragment;
@@ -22,6 +24,8 @@ import com.example.tuananh.module2.MainFragment;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity,BottomNavigationView.OnNavigationItemSelectedListener,IModule21{
+    BottomNavigationView bottomNavigationView;
+    private static final int REQ_RELATION_VIEW = 82;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +33,11 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
         setContentView(R.layout.activity_main);
 
         PeopleFragment peopleFragment = new PeopleFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,peopleFragment,peopleFragment.getTag()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,peopleFragment,peopleFragment.getTag())
+                .addToBackStack(peopleFragment.getTag())
+                .commit();
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bnv);
+        bottomNavigationView = findViewById(R.id.bnv);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         ArrayList<Model> models = DatabaseHandle.getInstance(getBaseContext()).showPeople();
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
         Intent intent = new Intent(MainActivity.this, Main2Activity.class);
         intent.putExtra("id",id);
         intent.putExtra("mode","addNew");
-        startActivity(intent);
+        startActivityForResult(intent,REQ_RELATION_VIEW);
     }
 
     @Override
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
         Intent intent = new Intent(MainActivity.this, Main2Activity.class);
         intent.putExtra("id",id);
         intent.putExtra("mode","addExist");
-        startActivity(intent);
+        startActivityForResult(intent,REQ_RELATION_VIEW);
     }
 
     @Override
@@ -93,10 +99,46 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
         bundle.putInt("id",id);
         RelationFragment relationFragment = new RelationFragment();
         relationFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,relationFragment,relationFragment.getTag())
-                .addToBackStack(relationFragment.getTag())
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_act_container,relationFragment,"RelationFragment")
+                .addToBackStack("RelationFragment")
                 .commit();
     }
+
+    @Override
+    public void onPeoplePicker(Model model) {
+        onBackPressed();
+        RelationFragment relationFragment = (RelationFragment) getSupportFragmentManager().findFragmentByTag("RelationFragment");
+        relationFragment.init(model.getId());
+    }
+
+    @Override
+    public void notifySelectedMenuItem(int position) {
+        switch (position)
+        {
+            case 1:
+                bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                break;
+
+            case 2:
+                bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                break;
+            case 3:
+                bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                break;
+        }
+    }
+
+    @Override
+    public void getFragPeoplePicker() {
+        Bundle bundle = new Bundle();
+        bundle.putString("mode",Mode.PEOPLE_SEARCH_PICKER);
+        FragPeoplePicker fragPeoplePicker = new FragPeoplePicker();
+        fragPeoplePicker.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().add(R.id.main_act_container,fragPeoplePicker,"FragPeoplePicker")
+                .addToBackStack("FragPeoplePicker")
+                .commit();
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -121,8 +163,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
             case R.id.mi_relationship:{
                 RelationFragment relationFragment = new RelationFragment();
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_act_container,relationFragment,relationFragment.getTag())
-                        .addToBackStack(relationFragment.getTag())
+                        .replace(R.id.main_act_container,relationFragment,"RelationFragment")
+                        .addToBackStack("RelationFragment")
                         .commit();
             }return true;
         }
@@ -132,6 +174,24 @@ public class MainActivity extends AppCompatActivity implements IMainActivity,Bot
     @Override
     public void getDetailInfo(int id) {
         onEditListener(id);
+    }
+
+    @Override
+    public void notifyMapFragmentSelected() {
+        notifySelectedMenuItem(2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data!=null){
+            switch (requestCode){
+                case REQ_RELATION_VIEW:
+                    int id = data.getIntExtra("id",0);
+                    RelationFragment relationFragment = (RelationFragment) getSupportFragmentManager().findFragmentByTag("RelationFragment");
+                    relationFragment.notifyModelChange(id);
+            }
+        }
     }
 }
 

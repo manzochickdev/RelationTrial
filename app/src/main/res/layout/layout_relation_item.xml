@@ -10,6 +10,7 @@
             type="com.example.tuananh.module1.Model.Model"></variable>
     </data>
     <LinearLayout
+        android:layout_marginTop="12dp"
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="72dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -36,7 +37,7 @@
             android:layout_height="wrap_content" />
         <View
             android:visibility="@{vm.root==model.id ? View.VISIBLE : View.INVISIBLE}"
-            android:background="@android:color/black"
+            android:background="@color/colorAccent"
             android:layout_width="2dp"
             android:layout_height="10dp"></View>
 

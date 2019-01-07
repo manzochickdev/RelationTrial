@@ -30,4 +30,6 @@ public interface IMain2Activity {
 
     void onBDaySet(long dDeath);
     void onDDatSet(long dBirth);
+
+    void onFinish();
 }

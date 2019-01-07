@@ -98,6 +98,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,GoogleMa
                 this.googleMap.setOnMarkerClickListener(this);
             }
         }
+        this.googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                Log.d("OK", "onCameraMove: ");
+                iModule2.hideNearby();
+            }
+        });
     }
 
     @Override

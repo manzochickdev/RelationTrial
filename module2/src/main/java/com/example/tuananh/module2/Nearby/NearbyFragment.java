@@ -100,6 +100,11 @@ public class NearbyFragment extends Fragment {
 
     }
 
+    public void hideNearby() {
+        fragmentNearbyBinding.rv.setAdapter(null);
+        fragmentNearbyBinding.setModel(null);
+    }
+
 
     public interface OnDataListener{
         void onModelBack(Model model);

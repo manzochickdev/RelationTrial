@@ -101,12 +101,20 @@ public class MainFragment extends Fragment implements IModule2 {
     public void hideNearby() {
         NearbyFragment nearbyFragment = (NearbyFragment) getChildFragmentManager().findFragmentByTag("NearbyFragment");
         if(nearbyFragment!=null){
-            nearbyFragment.getView().setVisibility(View.GONE);
+            nearbyFragment.hideNearby();
         }
     }
 
     public ModelAddress onAddressBack(){
         ModelAddress modelAddress = mapManipulationFragment.getAddress();
         return modelAddress;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getContext() instanceof IModule21){
+            ((IModule21) getContext()).notifyMapFragmentSelected();
+        }
     }
 }

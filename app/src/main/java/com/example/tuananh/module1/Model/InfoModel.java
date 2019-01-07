@@ -11,8 +11,15 @@ public class InfoModel {
 
     public InfoModel(Model model, Address address, DetailInfo detailInfo) {
         this.model = model;
-        this.address = address;
-        this.detailInfo = detailInfo;
+        if  (address==null) {
+            this.address = new Address();
+        }
+        else this.address = address;
+
+        if (this.detailInfo==null){
+            this.detailInfo = new DetailInfo();
+        }
+        else this.detailInfo = detailInfo;
     }
 
     public static InfoModel getInstance(){
@@ -48,5 +55,6 @@ public class InfoModel {
     }
 
     public InfoModel() {
+
     }
 }

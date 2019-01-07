@@ -20,7 +20,6 @@ import com.example.tuananh.module1.Model.Relationship;
 import com.example.tuananh.module1.R;
 import com.example.tuananh.module1.databinding.LayoutInfoBinding;
 import com.example.tuananh.module1.databinding.LayoutRelationshipBinding;
-import com.example.tuananh.module2.ModelAddress;
 
 import java.util.ArrayList;
 
@@ -34,7 +33,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     DatabaseHandle databaseHandle;
 
 
-    public CustomPagerAdapter(Context context,int id,Boolean isEdit) {
+    public CustomPagerAdapter(Context context, int id, Boolean isEdit) {
         this.context = context;
         this.id = id;
         this.isEdit = isEdit;
@@ -123,9 +122,11 @@ public class CustomPagerAdapter extends PagerAdapter {
             }
         };
         relationshipAdapter = new RelationshipAdapter(modelRelas,context,onDataHandle,"edit");
+        if (isEdit) relationshipAdapter.setIsEdit(true);
         layoutRelationship.rvRelationship.setAdapter(relationshipAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context,4, LinearLayoutManager.VERTICAL,false);
         layoutRelationship.rvRelationship.setLayoutManager(gridLayoutManager);
+
     }
 
     @Override
@@ -142,7 +143,7 @@ public class CustomPagerAdapter extends PagerAdapter {
             else return "Relationship";
     }
 
-    public View onViewBack(int pos){
+    public View onViewBack(final int pos){
         switch (pos){
             case 0:
                 return layoutInfo;
@@ -150,7 +151,16 @@ public class CustomPagerAdapter extends PagerAdapter {
                 return layoutRelationship;
             default:return null;
         }
+    }
 
+    public void handleMode(final boolean b){
+        LayoutRelationshipBinding layoutRelationshipBinding = DataBindingUtil.bind(layoutRelationship);
+        RelationshipAdapter relationshipAdapter = (RelationshipAdapter) layoutRelationshipBinding.rvRelationship.getAdapter();
+        relationshipAdapter.setIsEdit(b);
+
+
+        LayoutInfoBinding layoutInfoBinding = DataBindingUtil.bind(layoutInfo);
+        layoutInfoBinding.setIsEdit(b);
     }
 
     public void handleUpdate(){
@@ -196,4 +206,5 @@ public class CustomPagerAdapter extends PagerAdapter {
 
 
     }
+
 }

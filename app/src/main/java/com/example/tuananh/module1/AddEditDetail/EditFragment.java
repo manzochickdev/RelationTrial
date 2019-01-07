@@ -71,15 +71,6 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         fragmentEditBinding.viewpager.setAdapter(customPagerAdapter);
         fragmentEditBinding.detailTabs.setupWithViewPager(fragmentEditBinding.viewpager);
 
-        if (isEdit){
-            fragmentEditBinding.detailTabs.getTabAt(1).select();
-            fragmentEditBinding.setVisible(false);
-            fragmentEditBinding.ivProfile.setEnabled(true);
-        }
-        else {
-            fragmentEditBinding.setVisible(true);
-            fragmentEditBinding.ivProfile.setEnabled(false);
-        }
 
 
         fragmentEditBinding.toolbar.inflateMenu(R.menu.menu);
@@ -100,6 +91,16 @@ public class EditFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        if (isEdit){
+            fragmentEditBinding.detailTabs.getTabAt(1).select();
+            fragmentEditBinding.setVisible(false);
+            fragmentEditBinding.ivProfile.setEnabled(true);
+        }
+        else {
+            fragmentEditBinding.setVisible(true);
+            fragmentEditBinding.ivProfile.setEnabled(false);
+        }
+
 
         fragmentEditBinding.ivBack.setOnClickListener(this);
         fragmentEditBinding.tvCancel.setOnClickListener(this);
@@ -116,10 +117,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
                 Log.d("OK", "onClick: ");
             }break;
             case R.id.tvCancel:{
-                iMain2Activity.reload(id,isEdit);
+                if (!isEdit){
+                    iMain2Activity.reload(id,false);
+                }
+                else iMain2Activity.onBackListener();
             }break;
             case R.id.tvOk:{
-                iMain2Activity.onBackListener();
+                iMain2Activity.onFinish();
                 customPagerAdapter.handleUpdate();
                 if (isImageProfileChange){
                     Bitmap bitmap =((BitmapDrawable) fragmentEditBinding.ivProfile.getDrawable()).getBitmap();
@@ -154,16 +158,10 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     private void handleMode(boolean b) {
         fragmentEditBinding.ivProfile.setEnabled(b);
-        View view = (View) customPagerAdapter.onViewBack(1);
-        LayoutRelationshipBinding layoutRelationship = DataBindingUtil.bind(view);
-        RelationshipAdapter relationshipAdapter = (RelationshipAdapter) layoutRelationship.rvRelationship.getAdapter();
-        relationshipAdapter.setIsEdit(b);
-
-        View view1 = customPagerAdapter.onViewBack(0);
-        LayoutInfoBinding layoutInfoBinding = DataBindingUtil.bind(view1);
-        layoutInfoBinding.setIsEdit(b);
+        customPagerAdapter.handleMode(b);
         fragmentEditBinding.setVisible(!b);
     }
+
 
 
 }

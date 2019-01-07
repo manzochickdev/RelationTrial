@@ -29,6 +29,7 @@ public class PeopleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         fragmentPeopleBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_people, container, false);
         fragmentPeopleBinding.rvPeople.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         handleData();
@@ -57,15 +58,13 @@ public class PeopleFragment extends Fragment {
         peopleSearch = new PeopleSearch(getContext());
         fragmentPeopleBinding.setViewHandle(new ViewHandle((IMainActivity) getContext(),onDataHandle,peopleSearch));
         getData(peopleSearch.getModels());
+        if (getContext() instanceof IMainActivity){
+            ((IMainActivity) getContext()).notifySelectedMenuItem(1);
+        }
     }
 
     public interface OnDataHandle{
         void updateList(ArrayList<Model> models);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("OK", "onDestroy: ");
-    }
 }

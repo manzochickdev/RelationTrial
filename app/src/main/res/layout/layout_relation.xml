@@ -16,7 +16,7 @@
         <View
             android:id="@+id/view_holder"
             android:layout_below="@id/rv_people_item"
-            android:background="@android:color/black"
+            android:background="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="2dp"></View>
         <include layout="@layout/layout_info_summary"

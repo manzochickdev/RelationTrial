@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.tuananh.module2.Model;
 import com.example.tuananh.module2.R;
+import com.example.tuananh.module2.databinding.LayoutCustomInfoPlusBinding;
 import com.example.tuananh.module2.databinding.LayoutProfileImageCircleBinding;
 
 import java.util.ArrayList;
@@ -26,26 +27,61 @@ public class CustomInfoWindowAdapter extends RecyclerView.Adapter<CustomInfoWind
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.layout_profile_image_circle,viewGroup,false);
-        return new ViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        switch (i){
+            case 0 :
+                LayoutProfileImageCircleBinding layoutProfileImageCircleBinding = DataBindingUtil.inflate(inflater,R.layout.layout_profile_image_circle,viewGroup,false);
+                return new ViewHolder(layoutProfileImageCircleBinding);
+
+            case 1:
+                LayoutCustomInfoPlusBinding layoutCustomInfoPlusBinding = DataBindingUtil.inflate(inflater,R.layout.layout_custom_info_plus,viewGroup,false);
+                return new ViewHolder(layoutCustomInfoPlusBinding);
+
+        }
+        return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.layoutProfileImageCircleBinding.setId(models.get(i));
-        viewHolder.layoutProfileImageCircleBinding.executePendingBindings();
+        switch (viewHolder.getItemViewType()){
+            case 0:
+                viewHolder.layoutProfileImageCircleBinding.setId(models.get(i));
+                viewHolder.layoutProfileImageCircleBinding.executePendingBindings();
+                break;
+            case 1:
+                int plus = models.size()-2;
+                viewHolder.layoutCustomInfoPlusBinding.setText("+"+plus);
+                viewHolder.layoutCustomInfoPlusBinding.executePendingBindings();
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return models.size();
+        if (models.size()<=3) return models.size();
+        return 3;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position==2){
+            if (models.size()<=3) return 0;
+            return 1;
+        }
+        else return 0;
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         LayoutProfileImageCircleBinding layoutProfileImageCircleBinding;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            layoutProfileImageCircleBinding = DataBindingUtil.bind(itemView);
+        LayoutCustomInfoPlusBinding layoutCustomInfoPlusBinding;
+        public ViewHolder(@NonNull LayoutProfileImageCircleBinding layoutProfileImageCircleBinding) {
+            super(layoutProfileImageCircleBinding.getRoot());
+            this.layoutProfileImageCircleBinding = layoutProfileImageCircleBinding;
+        }
+
+        public ViewHolder(@NonNull LayoutCustomInfoPlusBinding layoutCustomInfoPlusBinding) {
+            super(layoutCustomInfoPlusBinding.getRoot());
+            this.layoutCustomInfoPlusBinding = layoutCustomInfoPlusBinding;
         }
     }
 }

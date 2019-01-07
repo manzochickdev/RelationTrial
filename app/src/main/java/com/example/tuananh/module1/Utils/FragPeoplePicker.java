@@ -55,6 +55,9 @@ public class FragPeoplePicker extends BottomSheetDialogFragment {
             else fragPeoplePickerBinding.layoutRelationshipSelect.setClicked(-1);
             if (mId!=0) {fragPeoplePickerAdapter.setsClicked(mId);} else fragPeoplePickerAdapter.setsClicked(-1);
         }
+        else if (mode.equals(Mode.PEOPLE_SEARCH_PICKER)){
+            fragPeoplePickerBinding.setIsRelaPicker(false);
+        }
         else {
             fragPeoplePickerBinding.setIsRelaPicker(false);
             fragPeoplePickerAdapter.setmClicked(listId);
